@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'user',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +49,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'weakeup.middlewares.JsonDebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'weakeup.urls'
@@ -76,6 +79,22 @@ WSGI_APPLICATION = 'weakeup.wsgi.application'
 
 DATABASES = DATABASE
 
+
+INTERNAL_IPS = [
+        '127.0.0.1'
+        ]
+
+
+# redis cache
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -125,7 +144,7 @@ STATIC_URL = '/static/'
 
 APPEND_SLASH = False
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = (
@@ -148,4 +167,3 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
-

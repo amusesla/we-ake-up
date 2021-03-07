@@ -1,0 +1,23 @@
+from django.views      import View
+from django.http       import JsonResponse
+from django.conf    import settings
+
+from django.core.cache import cache
+
+class LoginView(View):
+
+    def get(self, request):
+        print(cache.set('foo', 'bar'))
+        print(cache.get('foo'))
+        print(cache.ttl('foo'))
+        print(cache.keys('foo'))
+
+        context = {
+            'result': 'success',
+        }
+        return JsonResponse({'message': context})
+
+    def post(self, request):
+
+        cache.set('foo','bar', timeout)
+        return JsonResponse({'message': 'success'})
